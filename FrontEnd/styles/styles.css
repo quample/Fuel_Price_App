@@ -1,0 +1,32 @@
+body{
+    margin: 0;
+    text-align: center;
+}
+
+h1{
+    margin-top: 0px;
+
+}
+
+.top-container{
+    background-color: #E4F9F5;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+.middle-container{
+    background-image: 
+    url("https://static.wixstatic.com/media/34aef00a568e4c7db32033c39660ed8d.jpg/v1/fill/w_771,h_503,al_c,q_85,usm_0.66_1.00_0.01/Market%20Analysis.webp");
+    height: 400px;
+}
+.client_profile:hover{
+    background-color: brown;
+}
+
+.get_quote:hover{
+    background-color: brown;
+}
+
+.quote_history:hover{
+    background-color: brown;
+}
