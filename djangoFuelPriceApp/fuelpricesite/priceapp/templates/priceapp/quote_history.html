@@ -1,0 +1,38 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+
+    <h1>Quote History</h1>
+
+    <table class="table">
+            <thead class="thead-dark">
+            <tr>
+                <th scope="col">#</th>
+                <th scope="col">Gallons Requested</th>
+                <th scope="col">Delivery Address</th>
+                <th scope="col">Delivery Date</th>
+                <th scope="col">Suggested Price</th>
+                <th scope="col">Total Amount Due</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr>
+                <th scope="row">1</th>
+                <td>400</td>
+                <td>UH Clahoun Rd,Houston, TX</td>
+                <td>2/3/2019</td>
+                <td>$100</td>
+                <td>$40000</td>
+            </tr>
+            <tr>
+                <th scope="row">2</th>
+                <td>250</td>
+                <td>UH Clahoun Rd,Houston, TX</td>
+                <td>2/3/2019</td>
+                <td>$90</td>
+                <td>$22500</td>
+            </tr>
+
+            </tbody>
+    </table>
+{% endblock %}
