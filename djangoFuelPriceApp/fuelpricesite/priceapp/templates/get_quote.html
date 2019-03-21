@@ -1,54 +1,48 @@
 {% extends "base_generic.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
     <div class="container text-center">
-        <h1 class="center-block">Fuel Quote Form</h1>
-        <form action="/echo" method="POST" id="delivery-form" >
-            <div class="form-row justify-content-md-center">
-                <div class="form-group col-xs-2" >
-                    <label for="inputGallons">Gallons required</label>
-                    <input type="number" class="form-control" id="inputGallons" placeholder="Gallons" required >
-                    <div class="invalid-feedback">Required Feild.</div>
-                </div>
-            </div>
-            <div class="form-row justify-content-md-center">
-                    <div class="form-group col-sm-4">
-                            <label for="inputAddress">Delivery Address</label>
-                            <input type="text" class="form-control" id="inputAddress" readonly>
-                            <div class="invalid-feedback">Required Feild.</div>
-                    </div>
-            </div>
+        <h1>Get Quote</h1>
+        <form action="" method="post">
+            {% csrf_token %}
             
-            <div class="form-row justify-content-md-center">
-                    <div class="form-group">
-                            <label class="justify-content-md-center" for="inputDeliveryDate">Delivery Date</label>
-                
-                            <input id="datepicker" width="276" />
-                            <script>
-                                $('#datepicker').datepicker({
-                                    uiLibrary: 'bootstrap4'
-                                });
-                            </script>
-                        <div class="invalid-feedback">Required Feild.</div>
-                        </div>
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+                {{ error }}
+              {% endfor %}
             </div>
-            <div class="form-row justify-content-md-center">
-                <button type="submit" class="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
-                    Get my Price
-                </button>
-            </div>
-        <div class="form-row justify-content-md-center">
-                <div class="form-group col-sm-4">
-                        <label for="SuggestedPriceL">Suggested Price</label>
-                        <input type="text" class="form-control" id="SuggestedPrice" readonly>
-                    </div>
-        </div>
-        <div class="form-row justify-content-md-center">
-                <div class="form-group col-sm-4">
-                        <label for="TotalPriceL">Total Amount Due</label>
-                        <input type="text" class="form-control" id="TotalPrice" readonly>
-                    </div>
-        </div>
+          {% endif %}
+
+            {% for field in form.visible_fields %}
+            
+                    {{ field.label_tag }}
+            
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid " %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                 {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            % render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+            
+                    {% if field.help_text %}
+                     <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+                Get my Price
+            </button>
         </form>
     </div>
 {% endblock %}

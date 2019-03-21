@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 
 #Forms
 from .forms import ClientProfileForm
+from .forms import GetQuoteForm
 
 #@login_required
 def index(request):
@@ -50,6 +51,19 @@ class ClientProfileView(LoginRequiredMixin, FormView,request):
 
 class GetQuoteView(LoginRequiredMixin, TemplateView):
     template_name = 'get_quote.html'
+
+@login_required(login_url='/accounts/login/')
+def get_quote(request):
+    if request.method == 'POST':
+        form = GetQuoteForm(request.POST)
+        if form.is_valid():
+            return HttpResponseRedirect('/priceapp/get_quote/')
+    else:
+        form = GetQuoteForm()
+    context = {
+        'form': form,
+     }
+    return render(request,'get_quote.html',context=context)
 
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
