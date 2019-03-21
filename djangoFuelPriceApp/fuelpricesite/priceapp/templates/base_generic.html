@@ -1,3 +1,4 @@
+{% load widget_tweaks %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,6 +10,7 @@
   <!-- Add additional CSS in static file -->
   <script src="https://unpkg.com/gijgo@1.9.11/js/gijgo.min.js" type="text/javascript"></script>
   <link href="https://unpkg.com/gijgo@1.9.11/css/gijgo.min.css" rel="stylesheet" type="text/css" />
+  {% load static %}
   <link rel="stylesheet" href="{% static 'css/styles.css' %}">
   {% load static %}
   <link rel="icon" href="{% static 'css/favicon.ico' %}">

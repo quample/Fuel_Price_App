@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'priceapp.apps.PriceappConfig',
     'accounts.apps.AccountsConfig',
+    'widget_tweaks',
 ]
 
 MIDDLEWARE = [

@@ -1,56 +1,48 @@
 {% extends "base_generic.html" %}
+{% load widget_tweaks %}
 
 {% block content %}
-<div class="container text-center">
+    <div class="container text-center">
         <h1>Client Profile Management</h1>
-        <form action="/echo" method="POST" id="signup-form">
-                <div class="form-row justify-content-md-center">
-                    <div class="form-group col-md-4">
-                        <label for="inputFullname4">Full Name</label>
-                        <input type="name" class="form-control" id="inputFullname4" placeholder="required" required maxlength="50"> 
-                        <div class="invalid-feedback">Required Feild.</div>
-                    </div>
-                </div>
-
-                <div class="form-row justify-content-md-center">
-                        <div class="form-group col-md-6">
-                                <label for="inputAddress">Address</label>
-                                <input type="text" class="form-control" id="inputAddress" placeholder="required" required maxlength="100">
-                                <div class="invalid-feedback">Required Feild.</div>
-                                </div>
-                </div>
-
-                <div class="form-row justify-content-md-center">
-                        <div class="form-group col-md-6">
-                                <label for="inputAddress2">Address 2</label>
-                                <input type="text" class="form-control" id="inputAddress2" placeholder="optional" maxlength="100">
-                                </div>
-                </div>
-
-                <div class="form-row">
-                <div class="form-group col-md-6">
-                    <label for="inputCity">City</label>
-                    <input type="text" class="form-control" id="required" required maxlength="100">
-                    <div class="invalid-feedback">Required Feild.</div>
-                </div>
-                <div class="form-group col-md-4">
-                    <label for="inputState">State</label>
-                    <select id="inputState" class="form-control">
-                    <option selected>Choose...</option>
-                    <option>...</option>
-                    </select>
-                    <div class="invalid-feedback">Required Feild.</div>
-                </div>
-                <div class="form-group col-md-2">
-                    <label for="inputZip">Zip</label>
-                    <input type="number" class="form-control" id="inputZip" required min="5" max="9">
-                    <div class="invalid-feedback">Required Feild.</div>
-                </div>
-                </div>
+        <form action="" method="post">
+            {% csrf_token %}
             
-                <button type="submit" class="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger" role="alert">
+              {% for error in form.non_field_errors %}
+                {{ error }}
+              {% endfor %}
+            </div>
+          {% endif %}
+
+            {% for field in form.visible_fields %}
+                <div class="form-group col-lg-10 col-lg-offset-6">
+                    {{ field.label_tag }}
+            
+                    {% if form.is_bound %}
+                        {% if field.errors %}
+                            {% render_field field class="form-control is-invalid " %}
+                            {% for error in field.errors %}
+                                <div class="invalid-feedback">
+                                 {{ error }}
+                                </div>
+                            {% endfor %}
+                        {% else %}
+                            % render_field field class="form-control is-valid" %}
+                        {% endif %}
+                    {% else %}
+                        {% render_field field class="form-control" %}
+                    {% endif %}
+            
+                    {% if field.help_text %}
+                     <small class="form-text text-muted">{{ field.help_text }}</small>
+                    {% endif %}
+                </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
                     Submit
-                </button>
-            </form>
+            </button>
+        </form>
     </div>
 {% endblock %}
