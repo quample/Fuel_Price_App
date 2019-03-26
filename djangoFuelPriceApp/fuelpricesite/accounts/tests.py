@@ -26,5 +26,5 @@ class LogInTest(TestCase):
         # send login data
         response = self.client.post('/login/', self.credentials, follow=True)
         # should be logged in now
-        #self.client.session['_auth_user_id']
+        self.client.session['_auth_user_id']
 
