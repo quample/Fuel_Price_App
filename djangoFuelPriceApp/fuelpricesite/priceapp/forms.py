@@ -64,4 +64,4 @@ class ClientProfileForm(forms.Form):
     zip_code = forms.CharField(max_length=9, min_length=5, strip=True)
 class GetQuoteForm(forms.Form):
     Gallons = forms.IntegerField()
-#    Delivery_Date = forms.DateField()
+    Delivery_Date = forms.DateField()

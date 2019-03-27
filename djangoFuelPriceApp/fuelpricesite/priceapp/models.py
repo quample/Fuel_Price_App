@@ -15,16 +15,3 @@ class UserQuotes(models.Model):
     user = models.OneToOneField(User, on_delete=models.CASCADE)
     reqGallons = models.CharField(max_length=10)
     reqDelDate = models.DateField()
-"""    
-    basePrice = models.IntegerField()
-    LocPriceFees = models.IntegerField()
-    discountPrice = models.IntegerField()
-    profitMargin = models.IntegerField()
-
-    def PricingCal(self)
-    {
-        
-    }
-"""
-
-

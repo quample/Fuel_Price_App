@@ -2,7 +2,6 @@ from django.shortcuts import render
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-# Create your views here.
 #from FuelPriceApp.models import Book, Author, BookInstance, Genre
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
@@ -12,6 +11,9 @@ from django.http import HttpResponseRedirect
 #Forms
 from .forms import ClientProfileForm
 from .forms import GetQuoteForm
+
+#Models
+from priceapp.models import UserQuotes
 
 #@login_required
 def index(request):
@@ -57,6 +59,7 @@ def get_quote(request):
     if request.method == 'POST':
         form = GetQuoteForm(request.POST)
         if form.is_valid():
+
             return HttpResponseRedirect('/priceapp/get_quote/')
     else:
         form = GetQuoteForm()
