@@ -1,9 +1,9 @@
-from django.shortcuts import render
+from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 # Create your views here.
-#from FuelPriceApp.models import Book, Author, BookInstance, Genre
+from priceapp.models import UserAddresses,UserQuotes
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -25,9 +25,13 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def client_profile(request):
+
+    #profile_instance = get_object_or_404(UserAddresses)
+
     if request.method == 'POST':
         form = ClientProfileForm(request.POST)
         if form.is_valid():
+            form.save()
             return HttpResponseRedirect('/priceapp/profileupdate/')
     else:
         form = ClientProfileForm()

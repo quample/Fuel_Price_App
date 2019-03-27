@@ -1,4 +1,5 @@
 from django import forms
+from priceapp.models import  UserAddresses,UserQuotes
 
 STATE_CHOICE = [
     ('TX','Texas'),
@@ -55,13 +56,23 @@ STATE_CHOICE = [
     ('WI','Wisconsin'),
     ('WY','Wyoming'),    
 ]
-class ClientProfileForm(forms.Form):
+
+class ClientProfileForm(forms.ModelForm):
+    """class Meta:
+        model = UserAddresses
+      
     full_name = forms.CharField(max_length=50,strip=True)
     address_1 = forms.CharField(max_length=100,strip=True)
     address_2 = forms.CharField(max_length=100,strip=True,required=False)
     city = forms.CharField(max_length=100,strip=True)
     state = forms.CharField(widget = forms.Select(choices=STATE_CHOICE))
     zip_code = forms.CharField(max_length=9, min_length=5, strip=True)
+    """  
+    class Meta:
+        model = UserAddresses
+        exclude = ['user','ad_full']
+
+
 class GetQuoteForm(forms.Form):
     Gallons = forms.IntegerField()
 #    Delivery_Date = forms.DateField()
