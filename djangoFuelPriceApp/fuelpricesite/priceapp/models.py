@@ -7,6 +7,7 @@ from django.dispatch import receiver
 
 class UserAddresses(models.Model):
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
+    user= models.ForeignKey(User, null=True,on_delete=models.CASCADE)
     full_name = models.CharField(max_length=50,verbose_name='Fullname',primary_key=True,default="Full Name")
     ad_P = models.CharField(max_length=100,verbose_name='Address 1')
     ad_P2 = models.CharField(max_length=100,verbose_name='Address 2',blank=True,null=True)
