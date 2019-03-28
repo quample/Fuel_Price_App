@@ -11,6 +11,10 @@ class ProfileAdmin(admin.ModelAdmin):
 
 #admin.site.register(UserQuotes)
 @admin.register(UserQuotes)
-
 class QuoteAdmin(admin.ModelAdmin):
-    pass
+    list_display = ('reqGallons','reqDelDate')
+
+"""
+    reqGallons = models.CharField(max_length=10)
+    reqDelDate = models.DateField()
+"""

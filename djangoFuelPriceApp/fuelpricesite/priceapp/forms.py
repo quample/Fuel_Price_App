@@ -73,6 +73,7 @@ class ClientProfileForm(forms.ModelForm):
         exclude = ['user','user_name','ad_full']
 
 
-class GetQuoteForm(forms.Form):
-    Gallons = forms.IntegerField()
-#    Delivery_Date = forms.DateField()
+class GetQuoteForm(forms.ModelForm):
+    class Meta:
+        model = UserQuotes
+        exclude = ['user','user_name','order_num']

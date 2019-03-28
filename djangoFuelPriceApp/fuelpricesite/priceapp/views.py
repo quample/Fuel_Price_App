@@ -63,6 +63,9 @@ def get_quote(request):
     if request.method == 'POST':
         form = GetQuoteForm(request.POST)
         if form.is_valid():
+            fs=form.save(commit=False)
+            fs.user=request.user.username
+            fs.save()
             return HttpResponseRedirect('/priceapp/get_quote/')
     else:
         form = GetQuoteForm()
