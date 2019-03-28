@@ -70,7 +70,7 @@ class ClientProfileForm(forms.ModelForm):
     """  
     class Meta:
         model = UserAddresses
-        exclude = ['user','ad_full']
+        exclude = ['user','user_name','ad_full']
 
 
 class GetQuoteForm(forms.Form):

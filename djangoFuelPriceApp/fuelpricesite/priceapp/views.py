@@ -32,7 +32,7 @@ def client_profile(request):
         form = ClientProfileForm(request.POST)
         if form.is_valid():
             fs=form.save(commit=False)
-            fs.user=request.user
+            fs.user=request.user.username
             fs.save()
             return HttpResponseRedirect('/priceapp/profileupdate/')
     else:
