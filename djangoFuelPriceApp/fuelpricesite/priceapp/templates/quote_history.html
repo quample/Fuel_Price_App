@@ -1,9 +1,12 @@
 {% extends "base_generic.html" %}
-
+{% load render_table from django_tables2 %}
 {% block content %}
-
+<!doctype html>
+<html>
+    <head>
+        <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+    </head>
     <h1>Quote History</h1>
-
     <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -17,22 +20,8 @@
             </thead>
             <tbody>
             <tr>
-                <th scope="row">1</th>
-                <td>400</td>
-                <td>UH Clahoun Rd,Houston, TX</td>
-                <td>2/3/2019</td>
-                <td>$100</td>
-                <td>$40000</td>
+                {% render_table table %}
             </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>250</td>
-                <td>UH Clahoun Rd,Houston, TX</td>
-                <td>2/3/2019</td>
-                <td>$90</td>
-                <td>$22500</td>
-            </tr>
-
             </tbody>
     </table>
 {% endblock %}

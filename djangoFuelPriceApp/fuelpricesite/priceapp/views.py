@@ -13,6 +13,10 @@ from django.http import HttpResponseRedirect
 from .forms import ClientProfileForm
 from .forms import GetQuoteForm
 
+#Tables
+from django_tables2 import RequestConfig
+from .tables import QuoteTable
+
 #@login_required
 def index(request):
     """View function for home page of site."""
@@ -81,9 +85,15 @@ def get_quote(request):
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
 
+@login_required(login_url='/accounts/login/')
+def Output_quote_history(request):
+    user_Quotes = get_object_or_404(UserQuotes,user_name=request.user.username)
+    table = QuoteTable(user_Quotes.objects.all())
+    RequestConfig(request).configure(table)
+    return render(request, '/priceapp/quote_history.html', {'table':table})
+
 
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
     template_name = 'signup.html'
-
