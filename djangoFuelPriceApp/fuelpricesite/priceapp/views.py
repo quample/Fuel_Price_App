@@ -32,7 +32,8 @@ def client_profile(request):
         form = ClientProfileForm(request.POST)
         if form.is_valid():
             fs=form.save(commit=False)
-            fs.user=request.user.username
+            fs.user_name=request.user.username
+            fs.user=request.user
             fs.save()
             return HttpResponseRedirect('/priceapp/profileupdate/')
     else:
@@ -60,15 +61,18 @@ class GetQuoteView(LoginRequiredMixin, TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def get_quote(request):
+    user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
+    delivery_address = {'delivery_address':user_record.ad_full}
     if request.method == 'POST':
-        form = GetQuoteForm(request.POST)
+        form = GetQuoteForm(request.POST,  initial=delivery_address)
         if form.is_valid():
-            fs=form.save(commit=False)
-            fs.user=request.user.username
+            fs=form.save()
+            fs.user_name=request.user.username
+            fs.user=request.user
             fs.save()
             return HttpResponseRedirect('/priceapp/get_quote/')
     else:
-        form = GetQuoteForm()
+        form = GetQuoteForm(initial=delivery_address)
     context = {
         'form': form,
      }

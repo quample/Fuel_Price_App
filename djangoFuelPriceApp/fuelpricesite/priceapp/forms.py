@@ -74,6 +74,13 @@ class ClientProfileForm(forms.ModelForm):
 
 
 class GetQuoteForm(forms.ModelForm):
+    def __init__(self, *args, **kwargs): 
+        super(GetQuoteForm, self).__init__(*args, **kwargs)                       
+        self.fields['delivery_address'].disabled = True
+
     class Meta:
         model = UserQuotes
+        widgets ={
+            'reqDelDate':forms.DateInput(attrs={'class':'datepicker'}),
+        }
         exclude = ['user','user_name','order_num']
