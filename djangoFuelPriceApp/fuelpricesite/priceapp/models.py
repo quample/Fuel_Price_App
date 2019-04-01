@@ -42,7 +42,7 @@ class UserQuotes(models.Model):
     user_name = models.CharField(max_length=100,blank=True,null=True)
     order_id = models.AutoField(primary_key=True)
     reqGallons = models.CharField(max_length=10,verbose_name="Requested Gallons")
-    reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="YYYY-MM-DD")
+    reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="MM/DD/YYYY")
     delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")
 
     def __str__(self):

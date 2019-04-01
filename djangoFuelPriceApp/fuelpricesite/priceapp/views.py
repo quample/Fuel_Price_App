@@ -3,7 +3,7 @@ from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
 # Create your views here.
-from priceapp.models import UserAddresses,UserQuotes
+from priceapp.models import UserAddresses, UserQuotes
 from django.views.generic import TemplateView
 from django.contrib.auth.decorators import login_required
 from django.contrib.auth.mixins import LoginRequiredMixin
@@ -81,7 +81,19 @@ def get_quote(request):
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
 
-
+@login_required(login_url='/accounts/login/')
+def output_quote_history(request):
+    '''
+    user_record = get_object_or_404(UserQuotes,user_name=request.user.username)
+    obj = UserQuotes.objects.get(user_record.user_name)
+    context = {
+        'orderNum': obj.order_id,
+        'galReq': obj.reqGallons, 
+        'DelAd': obj.delivery_address,
+        'DelDate': obj.DelDate
+    }
+    return render(request, "priceapp/quote_history.html", context)
+    '''
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')

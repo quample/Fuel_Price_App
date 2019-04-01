@@ -16,23 +16,28 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>400</td>
-                <td>UH Clahoun Rd,Houston, TX</td>
-                <td>2/3/2019</td>
+                
+                <!--
+                <th scope="row">{{order_id}}</th>
+                <td>{{galReq}}</td>
+                <td>{{DelAd}}</td>
+                <td>{{DelDate}}</td>
                 <td>$100</td>
                 <td>$40000</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>250</td>
-                <td>UH Clahoun Rd,Houston, TX</td>
-                <td>2/3/2019</td>
-                <td>$90</td>
-                <td>$22500</td>
-            </tr>
-
+                
+                {% for b in obj %}
+                <tr>
+                    <td>{{ b.order_id }}</td>
+                    <td>{{ b.reqGallons }}</td>
+                    <td>{{ b.delivery_address }}</td>
+                    <td>{{ b.reqDelDate }}</td>
+                </tr>
+                {% endfor %}
+                -->
             </tbody>
     </table>
 {% endblock %}
+<!--    order_id = models.AutoField(primary_key=True)
+    reqGallons = models.CharField(max_length=10,verbose_name="Requested Gallons")
+    reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="YYYY-MM-DD")
+    delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")-->
