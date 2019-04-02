@@ -1,5 +1,6 @@
 from django.urls import path
 from . import views
+from priceapp.views import output_quote_history
 
 urlpatterns = [
     path('', views.index, name='index'),

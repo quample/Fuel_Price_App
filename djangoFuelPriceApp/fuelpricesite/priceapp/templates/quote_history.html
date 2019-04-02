@@ -1,7 +1,6 @@
 {% extends "base_generic.html" %}
-
+{% load widget_tweaks %}
 {% block content %}
-
     <h1>Quote History</h1>
 
     <table class="table">
@@ -16,24 +15,24 @@
             </tr>
             </thead>
             <tbody>
-                
-                <!--
-                <th scope="row">{{order_id}}</th>
-                <td>{{galReq}}</td>
-                <td>{{DelAd}}</td>
-                <td>{{DelDate}}</td>
-                <td>$100</td>
-                <td>$40000</td>
-                
-                {% for b in obj %}
+                {% for a in obj %}
                 <tr>
-                    <td>{{ b.order_id }}</td>
-                    <td>{{ b.reqGallons }}</td>
-                    <td>{{ b.delivery_address }}</td>
-                    <td>{{ b.reqDelDate }}</td>
+                    {% for b in a}
+                    <td>{{ b }}</td>
+                    {% endfor %}
+                </tr>
+                {% endfor %}               
+                <!--
+                {{obj}}
+                {% for a in obj %}
+                <tr>
+                    <td>{{ a.order_id }}</td>
+                    <td>{{ a.reqGallons }}</td>
+                    <td>{{ a.delivery_address }}</td>
+                    <td>{{ a.reqDelDate }}</td>
                 </tr>
                 {% endfor %}
-                -->
+                --> 
             </tbody>
     </table>
 {% endblock %}

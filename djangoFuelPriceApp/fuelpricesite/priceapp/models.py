@@ -46,7 +46,7 @@ class UserQuotes(models.Model):
     delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")
 
     def __str__(self):
-        return self.order_id
+        return str(self.order_id)
 
 
 

@@ -13,6 +13,9 @@ from django.http import HttpResponseRedirect
 from .forms import ClientProfileForm
 from .forms import GetQuoteForm
 
+#QuerySet
+from django.db.models import Q
+
 #@login_required
 def index(request):
     """View function for home page of site."""
@@ -83,17 +86,12 @@ class QuoteHistoryView(LoginRequiredMixin, TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def output_quote_history(request):
-    '''
     user_record = get_object_or_404(UserQuotes,user_name=request.user.username)
-    obj = UserQuotes.objects.get(user_record.user_name)
-    context = {
-        'orderNum': obj.order_id,
-        'galReq': obj.reqGallons, 
-        'DelAd': obj.delivery_address,
-        'DelDate': obj.DelDate
-    }
-    return render(request, "priceapp/quote_history.html", context)
-    '''
+    all_Quotes = UserQuotes.objects.all()
+    only_user_quotes = all_Quotes.filter(user_name__exact=user_record.user_name)
+    list_quotes = list(only_user_quotes.values_list('order id','Gallons','Address','Date'))
+    t_list_quotes = list(zip(*list_quotes))
+    return render(request, 'priceapp/quote_history.html', t_list_quotes)
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
