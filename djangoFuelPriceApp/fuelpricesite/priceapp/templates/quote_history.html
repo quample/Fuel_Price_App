@@ -15,13 +15,13 @@
             </tr>
             </thead>
             <tbody>
-                {% for a in obj %}
+                {% for pl in obj%}
                 <tr>
-                    {% for b in a}
-                    <td>{{ b }}</td>
-                    {% endfor %}
+                  {% for l in pl%}
+                     <td>{{l}}</td>
+                  {% endfor %} 
                 </tr>
-                {% endfor %}               
+                {% endfor %}                       
                 <!--
                 {{obj}}
                 {% for a in obj %}

@@ -87,11 +87,19 @@ class QuoteHistoryView(LoginRequiredMixin, TemplateView):
 @login_required(login_url='/accounts/login/')
 def output_quote_history(request):
     user_record = get_object_or_404(UserQuotes,user_name=request.user.username)
+    quotes = list(UserQuotes.objects.filter(user_name__exact=user_record.user_name).values_list('order_id','reqGallons','delivery_address','reqDelDate'))
+    t_quotes = list(zip(*quotes))
+    obj = {
+        't_quotes':t_quotes
+    }
+    return render(request,'quote_history.html',obj)
+    '''
     all_Quotes = UserQuotes.objects.all()
     only_user_quotes = all_Quotes.filter(user_name__exact=user_record.user_name)
     list_quotes = list(only_user_quotes.values_list('order id','Gallons','Address','Date'))
     t_list_quotes = list(zip(*list_quotes))
-    return render(request, 'priceapp/quote_history.html', t_list_quotes)
+    return render(request, 'quote_history.html', t_list_quotes)
+    '''
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
