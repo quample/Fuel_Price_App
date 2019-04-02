@@ -48,5 +48,33 @@ class UserQuotes(models.Model):
     def __str__(self):
         return str(self.order_id)
 
+class Competitor_price2017(models.Model):
+    competitor_name = models.CharField(max_length=100,blank=True,primary_key=True)
+    Jan = models.SmallIntegerField()
+    Feb = models.SmallIntegerField()
+    Mar = models.SmallIntegerField()
+    Apr = models.SmallIntegerField()
+    May = models.SmallIntegerField()
+    Jun = models.SmallIntegerField()
+    Jul = models.SmallIntegerField()
+    Aug = models.SmallIntegerField()
+    Sep = models.SmallIntegerField()
+    Oct = models.SmallIntegerField()
+    Nov = models.SmallIntegerField()
+    Dec = models.SmallIntegerField()
 
+class Competitor_price2018(models.Model):
+    competitor_name = models.CharField(max_length=100,blank=True,primary_key=True)
+    Jan = models.SmallIntegerField()
+    Feb = models.SmallIntegerField()
+    Mar = models.SmallIntegerField()
+    Apr = models.SmallIntegerField()
+    May = models.SmallIntegerField()
+    Jun = models.SmallIntegerField()
+    Jul = models.SmallIntegerField()
+    Aug = models.SmallIntegerField()
+    Sep = models.SmallIntegerField()
+    Oct = models.SmallIntegerField()
+    Nov = models.SmallIntegerField()
+    Dec = models.SmallIntegerField()
 
