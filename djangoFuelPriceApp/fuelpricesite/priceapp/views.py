@@ -46,18 +46,6 @@ def client_profile(request):
      }
     return render(request,'client_profile.html',context=context)
 
-"""
-class ClientProfileView(LoginRequiredMixin, FormView,request):
-    template_name = 'client_profile.html'
-
-    if request.method == 'POST':
-        form = ClientProfileForm(request.POST)
-        if form.is_valid():
-            return HttpResponseRedirect('/profileupdate/')
-    else:
-        form = ClientProfileForm()
-"""
-    
 
 class GetQuoteView(LoginRequiredMixin, TemplateView):
     template_name = 'get_quote.html'
@@ -93,13 +81,7 @@ def output_quote_history(request):
         't_quotes':t_quotes
     }
     return render(request,'quote_history.html',obj)
-    '''
-    all_Quotes = UserQuotes.objects.all()
-    only_user_quotes = all_Quotes.filter(user_name__exact=user_record.user_name)
-    list_quotes = list(only_user_quotes.values_list('order id','Gallons','Address','Date'))
-    t_list_quotes = list(zip(*list_quotes))
-    return render(request, 'quote_history.html', t_list_quotes)
-    '''
+
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
