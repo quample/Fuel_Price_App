@@ -1,8 +1,8 @@
 {% extends "base_generic.html" %}
 {% load widget_tweaks %}
 {% block content %}
+{% csrf_token %}
     <h1>Quote History</h1>
-
     <table class="table">
             <thead class="thead-dark">
             <tr>
@@ -15,13 +15,25 @@
             </tr>
             </thead>
             <tbody>
+                {% for a in context%}
+                <tr>
+                <td>{{a}}</td>
+                  {% for b in a%}
+                     <td>{{b.reqGallons}}</td>
+                     <td>{{b.delivery_address}}</td>
+                     <td>{{b.reqDelDate}}</td>
+                  {% endfor %} 
+                </tr>                
+                {% endfor %}
+                <!--
                 {% for pl in obj%}
                 <tr>
                   {% for l in pl%}
                      <td>{{l}}</td>
                   {% endfor %} 
                 </tr>
-                {% endfor %}                       
+                {% endfor %}
+                -->                   
                 <!--
                 {{obj}}
                 {% for a in obj %}

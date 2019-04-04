@@ -67,7 +67,9 @@ class ClientProfileForm(forms.ModelForm):
     city = forms.CharField(max_length=100,strip=True)
     state = forms.CharField(widget = forms.Select(choices=STATE_CHOICE))
     zip_code = forms.CharField(max_length=9, min_length=5, strip=True)
-    """  
+    """ 
+    def __init__(self, *args, **kwargs): 
+        super(ClientProfileForm, self).__init__(*args, **kwargs)
     class Meta:
         model = UserAddresses
         exclude = ['user','user_name','ad_full']
