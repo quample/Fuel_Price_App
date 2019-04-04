@@ -15,26 +15,19 @@
             </tr>
             </thead>
             <tbody>
-                {% for pl in obj%}
-                <tr>
-                  {% for l in pl%}
-                     <td>{{l}}</td>
-                  {% endfor %} 
-                </tr>
-                {% endfor %}                       
-                <!--
-                {{obj}}
-                {% for a in obj %}
-                <tr>
-                    <td>{{ a.order_id }}</td>
-                    <td>{{ a.reqGallons }}</td>
-                    <td>{{ a.delivery_address }}</td>
-                    <td>{{ a.reqDelDate }}</td>
-                </tr>
-                {% endfor %}
-                --> 
+                {% for x in quote_list%}
+
+
+                {{x.reqGallons}}
+                {{x.reqDelDate}}
+                {{x.delivery_address}}
+          
+              {% endfor %}  
             </tbody>
+
     </table>
+
+  
 {% endblock %}
 <!--    order_id = models.AutoField(primary_key=True)
     reqGallons = models.CharField(max_length=10,verbose_name="Requested Gallons")
