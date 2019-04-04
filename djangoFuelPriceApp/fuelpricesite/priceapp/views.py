@@ -40,7 +40,14 @@ def client_profile(request):
             fs.save()
             return HttpResponseRedirect('/priceapp/profileupdate/')
     else:
-        form = ClientProfileForm()
+        user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
+        form = ClientProfileForm(initial={
+            'full_name':user_record.full_name,
+            'ad_P':user_record.ad_P,
+            'ad_P2':user_record.ad_P2,
+            'ad_City':user_record.ad_City,
+            'ad_State':user_record.ad_State,
+            'ad_Zip':user_record.ad_Zip})
     context = {
         'form': form,
      }
@@ -80,7 +87,7 @@ def output_quote_history(request):
         'quote_list':quotes
     }
     return render(request,'quote_history.html',obj)
-
+    '''
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
