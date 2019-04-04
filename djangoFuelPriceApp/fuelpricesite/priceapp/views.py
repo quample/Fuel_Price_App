@@ -87,7 +87,7 @@ def output_quote_history(request):
         'quote_list':quotes
     }
     return render(request,'quote_history.html',obj)
-    '''
+    
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
     success_url = reverse_lazy('login')
