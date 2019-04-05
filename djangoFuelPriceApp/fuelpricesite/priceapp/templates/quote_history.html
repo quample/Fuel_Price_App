@@ -6,7 +6,7 @@
     <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
                 <th scope="col">Gallons Requested</th>
                 <th scope="col">Delivery Address</th>
                 <th scope="col">Delivery Date</th>
@@ -17,10 +17,12 @@
             <tbody>
                 {% for x in quote_list%}
 
-
-                {{x.reqGallons}}
-                {{x.reqDelDate}}
-                {{x.delivery_address}}
+                <tr>
+                    <th>{{x.order_id}}</th>
+                    <th>{{x.reqGallons}}</th>
+                    <th>{{x.delivery_address}}</th>
+                    <th>{{x.reqDelDate}}</th>
+                </tr>
           
               {% endfor %}  
             </tbody>

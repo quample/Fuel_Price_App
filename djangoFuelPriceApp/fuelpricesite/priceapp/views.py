@@ -82,7 +82,7 @@ class QuoteHistoryView(LoginRequiredMixin, TemplateView):
 @login_required(login_url='/accounts/login/')
 def output_quote_history(request):
     #user_record = get_object_or_404(UserQuotes,user_name=request.user.username)
-    quotes = UserQuotes.objects.all()
+    quotes = UserQuotes.objects.filter(user_name=request.user.username)
     obj = {
         'quote_list':quotes
     }
