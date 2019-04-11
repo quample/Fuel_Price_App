@@ -57,23 +57,25 @@ STATE_CHOICE = [
     ('WY','Wyoming'),    
 ]
 
-class ClientProfileForm(forms.ModelForm):
-    """class Meta:
+class ClientProfileExists(forms.ModelForm):
+    def __init__(self, *args, **kwargs): 
+        super(ClientProfileExists, self).__init__(*args, **kwargs)
+        self.fields['full_name'].disabled = True
+        self.fields['ad_P'].disabled = True
+        self.fields['ad_P2'].disabled = True
+        self.fields['ad_City'].disabled = True
+        self.fields['ad_State'].disabled = True
+        self.fields['ad_Zip'].disabled = True
+    class Meta:
         model = UserAddresses
-      
-    full_name = forms.CharField(max_length=50,strip=True)
-    address_1 = forms.CharField(max_length=100,strip=True)
-    address_2 = forms.CharField(max_length=100,strip=True,required=False)
-    city = forms.CharField(max_length=100,strip=True)
-    state = forms.CharField(widget = forms.Select(choices=STATE_CHOICE))
-    zip_code = forms.CharField(max_length=9, min_length=5, strip=True)
-    """ 
+        exclude = ['user','user_name','ad_full']
+
+class ClientProfileForm(forms.ModelForm):
     def __init__(self, *args, **kwargs): 
         super(ClientProfileForm, self).__init__(*args, **kwargs)
     class Meta:
         model = UserAddresses
         exclude = ['user','user_name','ad_full']
-
 
 class GetQuoteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs): 

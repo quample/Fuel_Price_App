@@ -11,6 +11,7 @@ from django.http import HttpResponseRedirect
 
 #Forms
 from .forms import ClientProfileForm
+from .forms import ClientProfileExists
 from .forms import GetQuoteForm
 
 #QuerySet
@@ -28,20 +29,39 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def client_profile(request):
-
-    #profile_instance = get_object_or_404(UserAddresses)
-
-    if request.method == 'POST':
-        form = ClientProfileForm(request.POST)
-        if form.is_valid():
-            fs=form.save(commit=False)
-            fs.user_name=request.user.username
-            fs.user=request.user
-            fs.save()
+    '''
+    try:
+        test = UserAddresses.objects.get(user_name=request.user.username)
+        if isinstance(test,str):
             return HttpResponseRedirect('/priceapp/profileupdate/')
+   
+    except UserAddresses.DoesNotExist:
+    '''
+    if UserAddresses.objects.filter(user_name=request.user.username).exists():
+        return HttpResponseRedirect('/priceapp/profileupdate/')
+    else:
+        if request.method == 'POST':
+            form = ClientProfileForm(request.POST)
+            if form.is_valid():
+                fs=form.save(commit=False)
+                fs.user_name=request.user.username
+                fs.user=request.user
+                fs.save()
+                return HttpResponseRedirect('/priceapp/profileupdate/')
+        else:
+            form = ClientProfileForm()
+        context = {
+            'form': form,
+        }
+        return render(request,'client_profile.html',context=context)
+
+def client_profile_exists(request):
+    if request.method == 'POST':
+        UserAddresses.objects.filter(user_name=request.user.username).delete()
+        return HttpResponseRedirect('/priceapp/client_profile/')
     else:
         user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
-        form = ClientProfileForm(initial={
+        form = ClientProfileExists(initial={
             'full_name':user_record.full_name,
             'ad_P':user_record.ad_P,
             'ad_P2':user_record.ad_P2,
@@ -51,8 +71,7 @@ def client_profile(request):
     context = {
         'form': form,
      }
-    return render(request,'client_profile.html',context=context)
-
+    return render(request,'profileupdate.html',context=context)
 
 class GetQuoteView(LoginRequiredMixin, TemplateView):
     template_name = 'get_quote.html'
