@@ -17,6 +17,9 @@ from .forms import GetQuoteForm
 #QuerySet
 from django.db.models import Q
 
+#Messages
+from django.contrib import messages
+
 #@login_required
 def index(request):
     """View function for home page of site."""
@@ -78,22 +81,29 @@ class GetQuoteView(LoginRequiredMixin, TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def get_quote(request):
+    '''
     user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
-    delivery_address = {'delivery_address':user_record.ad_full}
-    if request.method == 'POST':
-        form = GetQuoteForm(request.POST,  initial=delivery_address)
-        if form.is_valid():
-            fs=form.save()
-            fs.user_name=request.user.username
-            fs.user=request.user
-            fs.save()
-            return HttpResponseRedirect('/priceapp/get_quote/')
+    '''
+    if UserAddresses.objects.filter(user_name=request.user.username).exists():
+        user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
+        delivery_address = {'delivery_address':user_record.ad_full}
+        if request.method == 'POST':
+            form = GetQuoteForm(request.POST,  initial=delivery_address)
+            if form.is_valid():
+                fs=form.save()
+                fs.user_name=request.user.username
+                fs.user=request.user
+                fs.save()
+                return HttpResponseRedirect('/priceapp/get_quote/')
+        else:
+            form = GetQuoteForm(initial=delivery_address)
+        context = {
+            'form': form,
+        }
+        return render(request,'get_quote.html',context=context)
     else:
-        form = GetQuoteForm(initial=delivery_address)
-    context = {
-        'form': form,
-     }
-    return render(request,'get_quote.html',context=context)
+        messages.error(request, "No Client Address Found, please fill out your profile.")
+        return HttpResponseRedirect('/priceapp/client_profile/')
 
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
