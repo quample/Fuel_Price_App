@@ -75,6 +75,10 @@ class ClientProfileForm(forms.ModelForm):
         super(ClientProfileForm, self).__init__(*args, **kwargs)
     class Meta:
         model = UserAddresses
+        widgets = {
+            'ad_State' : forms.Select(choices=STATE_CHOICE),
+            'full_name' : forms.TextInput(attrs={'placeholder':'Enter full-name'})
+        }
         exclude = ['user','user_name','ad_full']
 
 class GetQuoteForm(forms.ModelForm):
