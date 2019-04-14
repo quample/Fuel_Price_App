@@ -51,6 +51,9 @@ def client_profile(request):
                 fs.user=request.user
                 fs.save()
                 return HttpResponseRedirect('/priceapp/profileupdate/')
+            elif form.has_error:
+                messages.error(request, form.errors)
+                return HttpResponseRedirect('/priceapp/client_profile/')                
         else:
             form = ClientProfileForm()
         context = {
