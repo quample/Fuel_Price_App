@@ -4,6 +4,7 @@ from django.db.models.signals import post_save
 from django.dispatch import receiver
 from django.core.exceptions import ValidationError
 from django.utils.translation import gettext_lazy as _
+from django.core.validators import RegexValidator 
 # Create your models here.
 def min_len(value):
     if len(value) < 5:
@@ -13,16 +14,18 @@ def min_len(value):
         )   
 
 class UserAddresses(models.Model):
-
+    numeric = RegexValidator(r'^[0-9]*$', 'Only numeric characters are allowed.')
+    alpha = RegexValidator(r'^[a-zA-Z]*$', 'Only alpha characters are allowed.')
+    alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     user= models.ForeignKey(User, null=True,on_delete=models.CASCADE)
     user_name = models.CharField(max_length=100,blank=True,null=True)
-    full_name = models.CharField(max_length=50,verbose_name='Full Name',primary_key=True)
-    ad_P = models.CharField(max_length=100,verbose_name='Address 1')
-    ad_P2 = models.CharField(max_length=100,verbose_name='Address 2',blank=True,null=True)
-    ad_City = models.CharField(max_length=100,verbose_name='City')
-    ad_State = models.CharField(max_length=2,verbose_name='State')
-    ad_Zip = models.CharField(max_length=9,verbose_name='Zip code',validators=[min_len])
+    full_name = models.CharField(max_length=50,verbose_name='Full Name',primary_key=True,validators=[alphanumeric])
+    ad_P = models.CharField(max_length=100,verbose_name='Address 1',validators=[alphanumeric])
+    ad_P2 = models.CharField(max_length=100,verbose_name='Address 2',blank=True,null=True,validators=[alphanumeric])
+    ad_City = models.CharField(max_length=100,verbose_name='City',validators=[alpha])
+    ad_State = models.CharField(max_length=2,verbose_name='State',validators=[alpha])
+    ad_Zip = models.CharField(max_length=9,verbose_name='Zip code',validators=[min_len, numeric])
     ad_full = models.CharField(max_length=250,default=ad_P)
 
     def __str__(self):

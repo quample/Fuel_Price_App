@@ -3,15 +3,20 @@
 {% block content %}
 
 {% if form.errors %}
-  <p>Your username and password didn't match. Please try again.</p>
+<div class="alert alert-danger alert-dismissible" role="alert">
+  Your username and password didn't match. Please try again.
+</div>
 {% endif %}
-
 {% if next %}
   {% if user.is_authenticated %}
-    <p>Your account doesn't have access to this page. To proceed,
-    please login with an account that has access.</p>
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    Your account doesn't have access to this page. To proceed,
+    please login with an account that has access.
+  </div>
   {% else %}
-    <p>Please login to see this page.</p>
+  <div class="alert alert-warning alert-dismissible" role="alert">
+    Please login to see this page.
+  </div>
   {% endif %}
 {% endif %}
 <div class="container test-center">
