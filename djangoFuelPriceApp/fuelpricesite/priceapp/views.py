@@ -2,6 +2,8 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
+from django_ajax.decorators import ajax
+
 # Create your views here.
 from priceapp.models import UserAddresses, UserQuotes
 from django.views.generic import TemplateView
@@ -79,6 +81,7 @@ def client_profile_exists(request):
 class GetQuoteView(LoginRequiredMixin, TemplateView):
     template_name = 'get_quote.html'
 
+@ajax
 @login_required(login_url='/accounts/login/')
 def get_quote(request):
     '''
