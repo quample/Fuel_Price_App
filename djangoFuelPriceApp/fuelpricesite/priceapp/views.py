@@ -84,7 +84,6 @@ def client_profile_exists(request):
 class GetQuoteView(LoginRequiredMixin, TemplateView):
     template_name = 'get_quote.html'
 
-@ajax
 @login_required(login_url='/accounts/login/')
 def get_quote(request):
     '''
