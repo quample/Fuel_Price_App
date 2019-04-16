@@ -68,7 +68,7 @@ def client_profile(request):
 
 def client_profile_exists(request):
     if request.method == 'POST':
-        UserAddresses.objects.filter(user_name=request.user.username).delete()
+        UserQuotes.objects.filter(user_name=request.user.username).delete()
         return HttpResponseRedirect('/priceapp/client_profile/')
     else:
         user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
@@ -99,15 +99,12 @@ def get_quote(request):
             form = GetQuoteForm(request.POST,  initial=delivery_address)
             if form.is_valid():
                 if 'quote' in request.POST:
-                    p = float(form['reqGallons'].value()) * 1.5
-                    messages.success(request, p)
-                    return HttpResponseRedirect('/priceapp/get_quote/')
-                elif 'submit' in request.POST:
                     fs=form.save()
                     fs.user_name=request.user.username
                     fs.user=request.user
                     fs.save()
-                    return HttpResponseRedirect('/priceapp/get_quote/')
+                    messages.info(request,"Please Look at the Calculated Price, click SUBMIT to accept or click RESET to try again.")                    
+                    return HttpResponseRedirect('/priceapp/quote_redirect/')
         else:
             form = GetQuoteForm(initial=delivery_address)
         context = {
@@ -117,6 +114,35 @@ def get_quote(request):
     else:
         messages.error(request, "No Client Address Found, please fill out your profile.")
         return HttpResponseRedirect('/priceapp/client_profile/')
+
+def pricing_redirect(request):
+    if UserQuotes.objects.filter(order_id=request.user.order_id).exists():
+        user_record = UserQuotes.objects.filter(order_id=request.order_id)
+        delivery_address = {'delivery_address':user_record.delivery_address}    
+        if request.method == 'POST':
+            form = GetQuoteForm(request.POST,  initial=delivery_address)
+            if form.is_valid():
+                if 'reset' in request.POST:
+                    user_record.delete()
+                    return HttpResponseRedirect('/priceapp/get_quote/')
+                elif 'submit' in request.POST:
+                    user_record.delete()
+                    fs=form.save()
+                    fs.user_name=request.user.username
+                    fs.user=request.user
+                    fs.save()
+                    return HttpResponseRedirect('/priceapp/get_quote/')
+    else:
+        form = ClientProfileExists(initial={
+            'reqGallons':user_record.full_name,
+            'reqDelDate':user_record.ad_P,
+            'delivery_address':user_record.ad_full,
+            'pricePerGal':user_record.pricePerGal,
+            'totalPrice':user_record.totalPrice})
+    context = {
+        'form': form,
+     }
+    return render(request,'profileupdate.html',context=context)
 
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
