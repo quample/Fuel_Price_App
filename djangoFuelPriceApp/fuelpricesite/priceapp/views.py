@@ -99,6 +99,7 @@ def get_quote(request):
             form = GetQuoteForm(request.POST,  initial=delivery_address)
             if form.is_valid():
                 if 'quote' in request.POST:
+                    '''PRICING MODULE GOES HERE'''
                     fs=form.save()
                     fs.user_name=request.user.username
                     fs.user=request.user
