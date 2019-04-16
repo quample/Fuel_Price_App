@@ -85,6 +85,8 @@ class GetQuoteForm(forms.ModelForm):
     def __init__(self, *args, **kwargs): 
         super(GetQuoteForm, self).__init__(*args, **kwargs)                       
         self.fields['delivery_address'].disabled = True
+        self.fields['pricePerGal'].disabled = True
+        self.fields['totalPrice'].disabled = True
 
     class Meta:
         model = UserQuotes

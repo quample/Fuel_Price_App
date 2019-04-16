@@ -22,6 +22,9 @@ from django.db.models import Q
 #Messages
 from django.contrib import messages
 
+#Ajax
+from django_ajax.decorators import ajax
+
 #@login_required
 def index(request):
     """View function for home page of site."""
@@ -95,11 +98,16 @@ def get_quote(request):
         if request.method == 'POST':
             form = GetQuoteForm(request.POST,  initial=delivery_address)
             if form.is_valid():
-                fs=form.save()
-                fs.user_name=request.user.username
-                fs.user=request.user
-                fs.save()
-                return HttpResponseRedirect('/priceapp/get_quote/')
+                if 'quote' in request.POST:
+                    p = float(form['reqGallons'].value()) * 1.5
+                    messages.success(request, p)
+                    return HttpResponseRedirect('/priceapp/get_quote/')
+                elif 'submit' in request.POST:
+                    fs=form.save()
+                    fs.user_name=request.user.username
+                    fs.user=request.user
+                    fs.save()
+                    return HttpResponseRedirect('/priceapp/get_quote/')
         else:
             form = GetQuoteForm(initial=delivery_address)
         context = {

@@ -45,36 +45,12 @@
                     {% endfor %}
                 </div>
             </div>
-        <!--        
-            <div class="form-row justify-content-md-center">
-            <div class="form-group">
-                <label class="justify-content-md-center" for="inputDeliveryDate">Delivery Date</label>         
-                    <input id="datepicker" width="276" />
-                    <script>
-                        $('#datepicker').datepicker({
-                        uiLibrary: 'bootstrap4'
-                        });
-                    </script>
-            </div>
-        </div>
-        -->        
-        <button type="submit" class="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+        <button type="submit" name="quote" lass="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
             Get my Price
+        </button>     
+        <button type="submit" name="submit" lass="btn btn-lg btn-outline-primary" data-toggle="button" aria-pressed="false" autocomplete="off">
+            SUBMIT
         </button>
-    </form>
-
-
-    <div class="form-row justify-content-md-center">
-            <div class="form-group col-sm-4">
-                    <label for="SuggestedPriceL">Suggested Price</label>
-                    <input type="text" class="form-control" id="SuggestedPrice" readonly>
-                </div>
-    </div>
-    <div class="form-row justify-content-md-center">
-            <div class="form-group col-sm-4">
-                    <label for="TotalPriceL">Total Amount Due</label>
-                    <input type="text" class="form-control" id="TotalPrice" readonly>
-                </div>
-    </div>
+    </form>    
     </div>
 {% endblock %}

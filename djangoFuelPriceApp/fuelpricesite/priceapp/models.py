@@ -44,9 +44,11 @@ class UserQuotes(models.Model):
     user = models.ForeignKey(User, null=True, on_delete=models.CASCADE)
     user_name = models.CharField(max_length=100,blank=True,null=True)
     order_id = models.AutoField(primary_key=True)
-    reqGallons = models.CharField(max_length=10,verbose_name="Requested Gallons")
+    reqGallons = models.FloatField(verbose_name="Requested Gallons")
     reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="MM/DD/YYYY")
     delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")
+    pricePerGal = models.FloatField(blank=False,verbose_name="Suggested Price",default='0.00')
+    totalPrice = models.FloatField(blank=False,verbose_name="Suggested Price",default='0.00')
 
     def __str__(self):
         return str(self.order_id)
