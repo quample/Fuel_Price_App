@@ -116,8 +116,8 @@ def get_quote(request):
         return HttpResponseRedirect('/priceapp/client_profile/')
 
 def pricing_redirect(request):
-    if UserQuotes.objects.filter(order_id=request.user.order_id).exists():
-        user_record = UserQuotes.objects.filter(order_id=request.order_id)
+    if UserQuotes.objects.filter(user_name=request.user.username).exists():
+        user_record = UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()
         delivery_address = {'delivery_address':user_record.delivery_address}    
         if request.method == 'POST':
             form = GetQuoteForm(request.POST,  initial=delivery_address)
@@ -132,17 +132,17 @@ def pricing_redirect(request):
                     fs.user=request.user
                     fs.save()
                     return HttpResponseRedirect('/priceapp/get_quote/')
-    else:
-        form = ClientProfileExists(initial={
-            'reqGallons':user_record.full_name,
-            'reqDelDate':user_record.ad_P,
-            'delivery_address':user_record.ad_full,
-            'pricePerGal':user_record.pricePerGal,
-            'totalPrice':user_record.totalPrice})
-    context = {
-        'form': form,
-     }
-    return render(request,'profileupdate.html',context=context)
+        else:
+            form = GetQuoteForm(initial={
+                'reqGallons':user_record.reqGallons,
+                'reqDelDate':user_record.reqDelDate,
+                'delivery_address':user_record.delivery_address,
+                'pricePerGal':user_record.pricePerGal,
+                'totalPrice':user_record.totalPrice})
+        context = {
+            'form': form,
+        }
+        return render(request,'quote_redirect.html',context=context)
 
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
