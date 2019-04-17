@@ -48,13 +48,13 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
 def client_profile(request):
     if request.META.get('HTTP_REFERER'):
         previous_page = request.META['HTTP_REFERER']
-        if 'quote_redirect' in previous_page and request.user.user.is_authenticated:
+        if 'quote_redirect' in previous_page and request.user.is_authenticated:
             UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
             print("last user record deleted")
-        elif 'quote_redirect' in previous_page and not request.user.user.is_authenticated:
-            print(str(UserQuotes.objects.order_by('order_id').last()) + "DELETED")
+        elif 'quote_redirect' in previous_page and not request.user.is_authenticated:
+            print(str(UserQuotes.objects.order_by('order_id').last()) + " DELETED")
             UserQuotes.objects.order_by('order_id').last().delete()
-            print(str(UserQuotes.objects.order_by('order_id').last()) + "is last.")
+            print(str(UserQuotes.objects.order_by('order_id').last()) + " is last.")
     '''
     try:
         test = UserAddresses.objects.get(user_name=request.user.username)
@@ -111,8 +111,9 @@ def get_quote(request):
         previous_page = request.META['HTTP_REFERER']
         print(previous_page)
         if 'quote_redirect' in previous_page:
+            print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " DELETED")
             UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
-            print("last user record deleted")
+            print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " is now last.")
     if UserAddresses.objects.filter(user_name=request.user.username).exists():
         user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
         delivery_address = {'delivery_address':user_record.ad_full}
@@ -176,8 +177,9 @@ def output_quote_history(request):
     if request.META.get('HTTP_REFERER'):
         previous_page = request.META['HTTP_REFERER']
         if 'quote_redirect' in previous_page:
+            print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " DELETED")
             UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
-            print("last user record deleted")
+            print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " is now last.")
     quotes = UserQuotes.objects.filter(user_name=request.user.username)
     obj = {
         'quote_list':quotes
