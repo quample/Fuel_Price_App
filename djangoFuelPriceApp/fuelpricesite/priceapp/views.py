@@ -28,8 +28,17 @@ from django_ajax.decorators import ajax
 #@login_required
 def index(request):
     """View function for home page of site."""
-
     # Render the HTML template index.html with the data in the context variable
+    if request.META.get('HTTP_REFERER'):
+        previous_page = request.META['HTTP_REFERER']
+        print(previous_page)
+        if 'quote_redirect' in previous_page and request.user.is_authenticated:
+            UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
+            print("last user record deleted")
+        elif 'quote_redirect' in previous_page and not request.user.is_authenticated:
+            print(str(UserQuotes.objects.order_by('order_id').last()) + "DELETED")
+            UserQuotes.objects.order_by('order_id').last().delete()
+            print(str(UserQuotes.objects.order_by('order_id').last()) + "is last.")
     return render(request, 'index.html')
 
 class ProfileUpdate(LoginRequiredMixin,TemplateView):
@@ -37,6 +46,15 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def client_profile(request):
+    if request.META.get('HTTP_REFERER'):
+        previous_page = request.META['HTTP_REFERER']
+        if 'quote_redirect' in previous_page and request.user.user.is_authenticated:
+            UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
+            print("last user record deleted")
+        elif 'quote_redirect' in previous_page and not request.user.user.is_authenticated:
+            print(str(UserQuotes.objects.order_by('order_id').last()) + "DELETED")
+            UserQuotes.objects.order_by('order_id').last().delete()
+            print(str(UserQuotes.objects.order_by('order_id').last()) + "is last.")
     '''
     try:
         test = UserAddresses.objects.get(user_name=request.user.username)
@@ -89,9 +107,12 @@ class GetQuoteView(LoginRequiredMixin, TemplateView):
 
 @login_required(login_url='/accounts/login/')
 def get_quote(request):
-    '''
-    user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
-    '''
+    if request.META.get('HTTP_REFERER'):
+        previous_page = request.META['HTTP_REFERER']
+        print(previous_page)
+        if 'quote_redirect' in previous_page:
+            UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
+            print("last user record deleted")
     if UserAddresses.objects.filter(user_name=request.user.username).exists():
         user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
         delivery_address = {'delivery_address':user_record.ad_full}
@@ -144,13 +165,19 @@ def pricing_redirect(request):
             'form': form,
         }
         return render(request,'quote_redirect.html',context=context)
+    else:
+        return HttpResponseRedirect('/priceapp/get_quote/')
 
 class QuoteHistoryView(LoginRequiredMixin, TemplateView):
     template_name = 'quote_history.html'
 
 @login_required(login_url='/accounts/login/')
 def output_quote_history(request):
-    #user_record = get_object_or_404(UserQuotes,user_name=request.user.username)
+    if request.META.get('HTTP_REFERER'):
+        previous_page = request.META['HTTP_REFERER']
+        if 'quote_redirect' in previous_page:
+            UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
+            print("last user record deleted")
     quotes = UserQuotes.objects.filter(user_name=request.user.username)
     obj = {
         'quote_list':quotes
