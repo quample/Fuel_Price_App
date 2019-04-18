@@ -62,7 +62,10 @@ class UserQuotes(models.Model):
             #self.pricePerGal = 10.0
 
         # history rates NOT FINISHED
+        # if user has ordered before
         historyrate = 0.01
+        # else
+        #historyrate = 0
 
         # gallons rates
         if self.reqGallons > 1000:
@@ -73,6 +76,9 @@ class UserQuotes(models.Model):
         profitfactor = 0.1
 
         # season rates NOT FINISHED
+        # if summer
+        #seasonrate = 0.04
+        #else
         seasonrate = 0.03
 
         pricepergallon = 1.50 + (locationrate - historyrate + gallonsrate + profitfactor + seasonrate) * 1.50
