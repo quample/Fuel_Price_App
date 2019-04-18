@@ -55,9 +55,31 @@ class UserQuotes(models.Model):
 
     def save(self, *args, **kwargs):
         if ', TX' in self.delivery_address:
-            self.pricePerGal = 5.0
+            locationrate = 0.02
+            #self.pricePerGal = 5.0
         else:
-            self.pricePerGal = 10.0
+            locationrate = 0.04
+            #self.pricePerGal = 10.0
+
+        # history rates NOT FINISHED
+        historyrate = 0.01
+
+        # gallons rates
+        if self.reqGallons > 1000:
+            gallonsrate = 0.02
+        else:
+            gallonsrate = 0.03
+        
+        profitfactor = 0.1
+
+        # season rates NOT FINISHED
+        seasonrate = 0.03
+
+        pricepergallon = 1.50 + (locationrate - historyrate + gallonsrate + profitfactor + seasonrate) * 1.50
+        total = self.reqGallons * pricepergallon
+
+        self.pricePerGal = pricepergallon
+        self.totalPrice = total
         super(UserQuotes, self).save(*args, **kwargs)
 '''
 class Competitor_price2017(models.Model):
