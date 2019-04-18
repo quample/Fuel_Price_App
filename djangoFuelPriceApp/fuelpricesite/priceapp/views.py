@@ -22,9 +22,6 @@ from django.db.models import Q
 #Messages
 from django.contrib import messages
 
-#Ajax
-from django_ajax.decorators import ajax
-
 #@login_required
 def index(request):
     """View function for home page of site."""
@@ -121,7 +118,6 @@ def get_quote(request):
             form = GetQuoteForm(request.POST,  initial=delivery_address)
             if form.is_valid():
                 if 'quote' in request.POST:
-                    '''PRICING MODULE GOES HERE'''
                     fs=form.save()
                     fs.user_name=request.user.username
                     fs.user=request.user

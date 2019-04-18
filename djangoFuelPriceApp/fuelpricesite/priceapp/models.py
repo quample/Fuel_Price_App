@@ -48,10 +48,17 @@ class UserQuotes(models.Model):
     reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="MM/DD/YYYY")
     delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")
     pricePerGal = models.FloatField(blank=False,verbose_name="Suggested Price",default='0.00')
-    totalPrice = models.FloatField(blank=False,verbose_name="Suggested Price",default='0.00')
+    totalPrice = models.FloatField(blank=False,verbose_name="Total Price",default='0.00')
 
     def __str__(self):
         return str(self.order_id)
+
+    def save(self, *args, **kwargs):
+        if ', TX' in self.delivery_address:
+            self.pricePerGal = 5.0
+        else:
+            self.pricePerGal = 10.0
+        super(UserQuotes, self).save(*args, **kwargs)
 '''
 class Competitor_price2017(models.Model):
     competitor_name = models.CharField(max_length=100,blank=True,primary_key=True)
