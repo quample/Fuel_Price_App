@@ -124,6 +124,9 @@ def get_quote(request):
                     fs.save()
                     messages.info(request,"Please Look at the Calculated Price, click SUBMIT to accept or click RESET to try again.")                    
                     return HttpResponseRedirect('/priceapp/quote_redirect/')
+            elif form.has_error:
+                messages.error(request, form.errors)
+                return HttpResponseRedirect('/priceapp/get_quote/')                 
         else:
             form = GetQuoteForm(initial=delivery_address)
         context = {
