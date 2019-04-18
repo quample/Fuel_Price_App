@@ -144,11 +144,10 @@ def pricing_redirect(request):
         if request.method == 'POST':
             form = GetQuoteForm(request.POST,  initial=delivery_address)
             if form.is_valid():
+                user_record.delete 
                 if 'reset' in request.POST:
-                    user_record.delete()
                     return HttpResponseRedirect('/priceapp/get_quote/')
                 elif 'submit' in request.POST:
-                    user_record.delete()
                     fs=form.save()
                     fs.user_name=request.user.username
                     fs.user=request.user
