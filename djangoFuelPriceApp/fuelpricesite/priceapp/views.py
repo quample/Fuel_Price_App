@@ -2,7 +2,6 @@ from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.forms import UserCreationForm
 from django.urls import reverse_lazy
 from django.views import generic
-from django_ajax.decorators import ajax
 
 # Create your views here.
 from priceapp.models import UserAddresses, UserQuotes
@@ -122,7 +121,7 @@ def get_quote(request):
                     fs.user_name=request.user.username
                     fs.user=request.user
                     fs.save()
-                    messages.info(request,"Please Look at the Calculated Price, click SUBMIT to accept or click RESET to try again.")                    
+                    messages.info(request,"Please Look at the Calculated Price, click SUBMIT to accept or click RESET QUOTE to enter new quote.")                    
                     return HttpResponseRedirect('/priceapp/quote_redirect/')
             elif form.has_error:
                 messages.error(request, form.errors)

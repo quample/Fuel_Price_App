@@ -56,25 +56,30 @@ class UserQuotes(models.Model):
     def save(self, *args, **kwargs):
         if ', TX' in self.delivery_address:
             locationrate = 0.02
+            print("locationrate:",locationrate)
             #self.pricePerGal = 5.0
         else:
             locationrate = 0.04
+            print("locationrate:",locationrate)
             #self.pricePerGal = 10.0
 
-        # history rates NOT FINISHED
-        if UserQuotes.objects.filter(user_name=User.username).exists():
         # if user has ordered before
+        if UserQuotes.objects.filter(user_name=self.user_name).count() >= 1:
             historyrate = 0.01
+            print(User.username)
+            print("historyrate:",historyrate)
         # else
         else:
-            historyrate = 0
-
+            historyrate = 0.0
+            print("historyrate:",historyrate)
+            print(User.username)
         # gallons rates
         if self.reqGallons > 1000:
             gallonsrate = 0.02
+            print("gallonsrate:",gallonsrate)
         else:
             gallonsrate = 0.03
-        
+            print("gallonsrate:",gallonsrate)
         profitfactor = 0.1
 
         # season rates NOT FINISHED
@@ -83,43 +88,15 @@ class UserQuotes(models.Model):
         month = self.reqDelDate.strftime("%B")
         if month == 'June' or month == 'July' or month == 'August':
             seasonrate = 0.04
+            print("seasonrate :",seasonrate)
         else:
             seasonrate = 0.03
-    
+            print("seasonrate :",seasonrate)
+
+            
         pricepergallon = 1.50 + (locationrate - historyrate + gallonsrate + profitfactor + seasonrate) * 1.50
         total = self.reqGallons * pricepergallon
 
         self.pricePerGal = pricepergallon
         self.totalPrice = total
         super(UserQuotes, self).save(*args, **kwargs)
-'''
-class Competitor_price2017(models.Model):
-    competitor_name = models.CharField(max_length=100,blank=True,primary_key=True)
-    Jan = models.SmallIntegerField()
-    Feb = models.SmallIntegerField()
-    Mar = models.SmallIntegerField()
-    Apr = models.SmallIntegerField()
-    May = models.SmallIntegerField()
-    Jun = models.SmallIntegerField()
-    Jul = models.SmallIntegerField()
-    Aug = models.SmallIntegerField()
-    Sep = models.SmallIntegerField()
-    Oct = models.SmallIntegerField()
-    Nov = models.SmallIntegerField()
-    Dec = models.SmallIntegerField()
-
-class Competitor_price2018(models.Model):
-    competitor_name = models.CharField(max_length=100,blank=True,primary_key=True)
-    Jan = models.SmallIntegerField()
-    Feb = models.SmallIntegerField()
-    Mar = models.SmallIntegerField()
-    Apr = models.SmallIntegerField()
-    May = models.SmallIntegerField()
-    Jun = models.SmallIntegerField()
-    Jul = models.SmallIntegerField()
-    Aug = models.SmallIntegerField()
-    Sep = models.SmallIntegerField()
-    Oct = models.SmallIntegerField()
-    Nov = models.SmallIntegerField()
-    Dec = models.SmallIntegerField()
-'''
