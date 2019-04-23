@@ -10,6 +10,7 @@ urlpatterns = [
     #path('get_quote/', views.GetQuoteView.as_view(), name='get_quote'),
     path('get_quote/', views.get_quote, name='get_quote'),
     path('quote_redirect/',views.pricing_redirect, name = 'quote_redirect'),
+    path('quote_submit/',views.pricing_submit, name = 'quote_submit'),
     path('quote_history/', views.output_quote_history, name = 'quote_history'),
     path('signup/', views.SignUp.as_view(), name='signup'),
    

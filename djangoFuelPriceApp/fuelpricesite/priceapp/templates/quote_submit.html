@@ -1,0 +1,11 @@
+{% extends "base_generic.html" %}
+
+{% block content %}
+<script>
+    function redirect(){
+       window.location.href = "/priceapp/get_quote";
+    }
+
+    setTimeout(redirect, 2000); //2000 is equivalent to 2 seconds
+</script>
+{% endblock %}
