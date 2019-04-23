@@ -86,7 +86,7 @@ class UserQuotes(models.Model):
 
         # if summer
         month = self.reqDelDate.strftime("%B")
-        if month == 'June' or month == 'July' or month == 'August':
+        if month == 'March' or month == 'April' or month == 'May' or month == 'June' or month == 'July' or month == 'August':
             seasonrate = 0.04
             print("seasonrate :",seasonrate)
         else:
