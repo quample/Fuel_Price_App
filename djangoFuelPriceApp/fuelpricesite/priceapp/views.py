@@ -44,12 +44,15 @@ class ProfileUpdate(LoginRequiredMixin,TemplateView):
 def client_profile(request):
     if request.META.get('HTTP_REFERER'):
         previous_page = request.META['HTTP_REFERER']
+        targetRecord = UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()
+        targetRecordOrder_id = targetRecord.order_id
+        targetRecordOnly = UserQuotes.objects.filter(order_id=targetRecordOrder_id)
         if 'quote_redirect' in previous_page and request.user.is_authenticated:
-            UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
+            targetRecordOnly.delete()
             print("last user record deleted")
         elif 'quote_redirect' in previous_page and not request.user.is_authenticated:
             print(str(UserQuotes.objects.order_by('order_id').last()) + " DELETED")
-            UserQuotes.objects.order_by('order_id').last().delete()
+            targetRecordOnly.delete()
             print(str(UserQuotes.objects.order_by('order_id').last()) + " is last.")
     '''
     try:
@@ -105,11 +108,18 @@ class GetQuoteView(LoginRequiredMixin, TemplateView):
 def get_quote(request):
     if request.META.get('HTTP_REFERER'):
         previous_page = request.META['HTTP_REFERER']
-        print(previous_page)
-        if 'quote_redirect' in previous_page:
-            print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " DELETED")
-            UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
-            print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " is now last.")
+        if UserQuotes.objects.filter(user_name=request.user.username).exists():
+            targetRecord = UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()
+            targetRecordOrder_id = targetRecord.order_id
+            targetRecordOnly = UserQuotes.objects.filter(order_id=targetRecordOrder_id)
+            print(type(targetRecordOnly))
+        if 'quote_redirect' in previous_page and request.user.is_authenticated and targetRecordOnly.exsists():
+            targetRecordOnly.delete()
+            print("last user record deleted")
+        elif 'quote_redirect' in previous_page and not request.user.is_authenticated:
+            print(str(UserQuotes.objects.order_by('order_id').last()) + " DELETED")
+            targetRecordOnly.delete()
+            print(str(UserQuotes.objects.order_by('order_id').last()) + " is last.")
     if UserAddresses.objects.filter(user_name=request.user.username).exists():
         user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
         delivery_address = {'delivery_address':user_record.ad_full}
@@ -138,15 +148,17 @@ def get_quote(request):
 
 def pricing_redirect(request):
     if UserQuotes.objects.filter(user_name=request.user.username).exists():
-        user_record = UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()
+        targetRecord = UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()
+        targetRecordOrder_id = targetRecord.order_id
+        user_record = UserQuotes.objects.filter(order_id=targetRecordOrder_id)
         delivery_address = {'delivery_address':user_record.delivery_address}    
         if request.method == 'POST':
             form = GetQuoteForm(request.POST,  initial=delivery_address)
-            if form.is_valid():
-                user_record.delete 
+            if form.is_valid(): 
                 if 'reset' in request.POST:
                     return HttpResponseRedirect('/priceapp/get_quote/')
                 elif 'submit' in request.POST:
+                    user_record.delete
                     fs=form.save()
                     fs.user_name=request.user.username
                     fs.user=request.user
