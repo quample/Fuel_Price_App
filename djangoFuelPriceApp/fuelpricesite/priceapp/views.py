@@ -85,7 +85,7 @@ def client_profile(request):
 
 def client_profile_exists(request):
     if request.method == 'POST':
-        UserQuotes.objects.filter(user_name=request.user.username).delete()
+        UserAddresses.objects.filter(user_name=request.user.username).delete()
         return HttpResponseRedirect('/priceapp/client_profile/')
     else:
         user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
