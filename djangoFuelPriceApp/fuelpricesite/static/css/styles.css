@@ -1,0 +1,46 @@
+body{
+    margin: 0;
+    text-align: center;
+}
+
+h1{
+    margin-top: 0px;
+
+}
+
+.top-container{
+    background-color: #E4F9F5;
+    text-align: center;
+    padding-top: 50px;
+    padding-bottom: 20px;
+}
+.middle-container{
+    background-repeat: no-repeat;
+    background-color: #E4F9F5;
+    background-image: 
+    url("bg.png");
+    background-position: center center;
+    height: 720px;
+}
+.client_profile:hover{
+    background-color: rgb(24, 153, 45);
+}
+
+.get_quote:hover{
+    background-color: rgb(24, 153, 45);
+}
+
+.quote_history:hover{
+    background-color: rgb(24, 153, 45);
+}
+.log-out:hover{
+    background-color: rgb(236, 16, 16);
+}
+
+.sign-log-in:hover{
+    background-color: rgb(153, 142, 78);
+}
+.disp-name{
+    color: brown;
+    padding-right: 10px;
+}

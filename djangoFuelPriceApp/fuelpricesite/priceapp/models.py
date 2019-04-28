@@ -15,8 +15,8 @@ def min_len(value):
 
 class UserAddresses(models.Model):
     numeric = RegexValidator(r'^[0-9]*$', 'Only numeric characters are allowed.')
-    alpha = RegexValidator(r'^[a-zA-Z]*$', 'Only alpha characters are allowed.')
-    alphanumeric = RegexValidator(r'^[0-9a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
+    alpha = RegexValidator(r'^[a-z A-Z]*$', 'Only alpha characters are allowed.')
+    alphanumeric = RegexValidator(r'^[0-9 a-zA-Z]*$', 'Only alphanumeric characters are allowed.')
     #user = models.OneToOneField(User, on_delete=models.CASCADE)
     user= models.ForeignKey(User, null=True,on_delete=models.CASCADE)
     user_name = models.CharField(max_length=100,blank=True,null=True)
