@@ -82,8 +82,6 @@ class UserQuotes(models.Model):
             print("gallonsrate:",gallonsrate)
         profitfactor = 0.1
 
-        # season rates NOT FINISHED
-
         # if summer
         month = self.reqDelDate.strftime("%B")
         if month == 'March' or month == 'April' or month == 'May' or month == 'June' or month == 'July' or month == 'August':
