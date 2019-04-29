@@ -54,14 +54,6 @@ def client_profile(request):
             UserQuotes.objects.order_by('order_id').last().delete()
             print(str(UserQuotes.objects.order_by('order_id').last()) + " is last.")
         previous_page = "/priceapp/client_profile/"
-    '''
-    try:
-        test = UserAddresses.objects.get(user_name=request.user.username)
-        if isinstance(test,str):
-            return HttpResponseRedirect('/priceapp/profileupdate/')
-   
-    except UserAddresses.DoesNotExist:
-    '''
     if UserAddresses.objects.filter(user_name=request.user.username).exists():
         return HttpResponseRedirect('/priceapp/profileupdate/')
     else:
@@ -84,22 +76,30 @@ def client_profile(request):
         return render(request,'client_profile.html',context=context)
 
 def client_profile_exists(request):
-    if request.method == 'POST':
-        UserAddresses.objects.filter(user_name=request.user.username).delete()
-        return HttpResponseRedirect('/priceapp/client_profile/')
+    if 'logout' in request.POST:
+        messages.success(request,"User Logged out")
+        return HttpResponseRedirect('/priceapp/')
+    if UserAddresses.objects.filter(user_name=request.user.username).exists():
+        if request.method == 'POST':                
+            if 'edit' in request.POST:
+                UserAddresses.objects.filter(user_name=request.user.username).delete()
+                messages.success(request,"Client Profile reseted.")
+                return HttpResponseRedirect('/priceapp/client_profile/')
+        else:
+            user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
+            form = ClientProfileExists(initial={
+                'full_name':user_record.full_name,
+                'ad_P':user_record.ad_P,
+                'ad_P2':user_record.ad_P2,
+                'ad_City':user_record.ad_City,
+                'ad_State':user_record.ad_State,
+                'ad_Zip':user_record.ad_Zip})
+        context = {
+            'form': form,
+        }
+        return render(request,'profileupdate.html',context=context)
     else:
-        user_record = get_object_or_404(UserAddresses,user_name=request.user.username)
-        form = ClientProfileExists(initial={
-            'full_name':user_record.full_name,
-            'ad_P':user_record.ad_P,
-            'ad_P2':user_record.ad_P2,
-            'ad_City':user_record.ad_City,
-            'ad_State':user_record.ad_State,
-            'ad_Zip':user_record.ad_Zip})
-    context = {
-        'form': form,
-     }
-    return render(request,'profileupdate.html',context=context)
+        return HttpResponseRedirect('/priceapp/')
 
 class GetQuoteView(LoginRequiredMixin, TemplateView):
     template_name = 'get_quote.html'
@@ -186,11 +186,14 @@ def output_quote_history(request):
             print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " DELETED")
             UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last().delete()
             print(str(UserQuotes.objects.filter(user_name=request.user.username).order_by('order_id').last()) + " is now last.")
-    quotes = UserQuotes.objects.filter(user_name=request.user.username)
-    obj = {
-        'quote_list':quotes
-    }
-    return render(request,'quote_history.html',obj)
+    if UserAddresses.objects.filter(user_name=request.user.username).exists():
+        quotes = UserQuotes.objects.filter(user_name=request.user.username)
+        obj = {
+            'quote_list':quotes
+        }
+        return render(request,'quote_history.html',obj)
+    else:
+        return HttpResponseRedirect('/priceapp/')
     
 class SignUp(generic.CreateView):
     form_class = UserCreationForm
