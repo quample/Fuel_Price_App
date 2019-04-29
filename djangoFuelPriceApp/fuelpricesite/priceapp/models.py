@@ -47,8 +47,8 @@ class UserQuotes(models.Model):
     reqGallons = models.FloatField(verbose_name="Requested Gallons")
     reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="MM/DD/YYYY")
     delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")
-    pricePerGal = models.FloatField(blank=False,verbose_name="Suggested Price",default='0.00')
-    totalPrice = models.FloatField(blank=False,verbose_name="Total Price",default='0.00')
+    pricePerGal = models.FloatField(blank=False,verbose_name="Suggested Price per Gallon ($)",default='0.00')
+    totalPrice = models.FloatField(blank=False,verbose_name="Total Price ($)",default='0.00')
 
     def __str__(self):
         return str(self.order_id)

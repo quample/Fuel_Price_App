@@ -94,18 +94,3 @@ class GetQuoteForm(forms.ModelForm):
             'reqDelDate':forms.DateInput(attrs={'class':'datepicker'}),
         }
         exclude = ['user','user_name','order_num']
-'''
-class Output_QuoteForm(forms.ModelForm):
-    def __init__(self, *args, **kwargs): 
-        super(Output_QuoteForm, self).__init__(*args, **kwargs)                       
-        self.fields['delivery_address'].disabled = True
-    
-    class meta:
-        model = UserQuotes
-'''
-'''
-    order_id = models.AutoField(primary_key=True)
-    reqGallons = models.CharField(max_length=10,verbose_name="Requested Gallons")
-    reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="MM/DD/YYYY")
-    delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")
-'''
