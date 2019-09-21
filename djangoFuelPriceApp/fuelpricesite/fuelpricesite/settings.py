@@ -25,7 +25,7 @@ SECRET_KEY = ')pb9*ah5382p8t&g2^_3d&x569va173_tg^$ar@s(s=u%p&p5)'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['django-env.bh3wk3vkvw.us-west-2.elasticbeanstalk.com','127.0.0.1']
 
 
 # Application definition
@@ -123,7 +123,9 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/2.1/howto/static-files/
 
+STATIC_ROOT = os.path.join(BASE_DIR,'static')
 STATIC_URL = '/static/'
+#STATICFILES_DIRS = (os.path.join(BASE_DIR,'static'),)
 
 # Redirect to home URL after login (Default redirects to /accounts/profile/)
 LOGIN_REDIRECT_URL = 'index'

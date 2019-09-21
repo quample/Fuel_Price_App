@@ -10,8 +10,8 @@
                 <th scope="col">Gallons Requested</th>
                 <th scope="col">Delivery Address</th>
                 <th scope="col">Delivery Date</th>
-                <th scope="col">Suggested Price</th>
-                <th scope="col">Total Amount Due</th>
+                <th scope="col">Suggested Price per Gallon ($)</th>
+                <th scope="col">Total Amount Due ($)</th>
             </tr>
             </thead>
             <tbody>
@@ -22,6 +22,8 @@
                     <th>{{x.reqGallons}}</th>
                     <th>{{x.delivery_address}}</th>
                     <th>{{x.reqDelDate}}</th>
+                    <th>{{x.pricePerGal}}</th>
+                    <th>{{x.totalPrice}}</th>
                 </tr>
           
               {% endfor %}  

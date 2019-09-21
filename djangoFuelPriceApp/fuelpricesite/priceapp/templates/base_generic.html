@@ -22,9 +22,13 @@
   <link rel="icon" href="{% static 'css/favicon.ico' %}">
               
   <script>
-      $(function () {
-          $('#id_reqDelDate').datepicker({ minDate: 0,});
-      });
+      var dateToday = new Date(); 
+      $(function() {
+        $('#id_reqDelDate').datepicker({
+        showButtonPanel: true,
+        minDate: dateToday
+    });
+});
   </script>
   </head>
 
@@ -64,7 +68,7 @@
                         <li class="nav-item">
                             {% if user.is_authenticated %}
                                 <li class="disp-name">User: {{ user.get_username }}</li>
-                                <li><a class="nav-link log-out" href="{% url 'logout'%}?next={{request.path}}">Logout</a></li>   
+                                <li><a class="nav-link log-out" href="{% url 'logout'%}?next={% if request.path == '/priceapp/quote_redirect/'%}/priceapp/{% else %}{{request.path}}{% endif %}">Logout</a></li>   
                               {% else %}
                                 <li><a class="nav-link sign-log-in" href="{% url 'signup'%}?next={{request.path}}">SignUp</a></li>
                                 <li><a class="nav-link sign-log-in" href="{% url 'login'%}?next={{request.path}}">Login</a></li>   

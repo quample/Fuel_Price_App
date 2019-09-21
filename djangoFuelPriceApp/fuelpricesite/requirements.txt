@@ -1,0 +1,7 @@
+coverage==4.5.3
+Django==2.1.7
+django-ajax==0.3.0
+django-nose==1.4.6
+django-widget-tweaks==1.4.3
+nose==1.3.7
+pytz==2018.9
