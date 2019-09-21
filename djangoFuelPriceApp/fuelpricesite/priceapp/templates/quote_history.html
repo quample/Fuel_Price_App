@@ -1,13 +1,12 @@
 {% extends "base_generic.html" %}
-
+{% load widget_tweaks %}
 {% block content %}
-
+{% csrf_token %}
     <h1>Quote History</h1>
-
     <table class="table">
             <thead class="thead-dark">
             <tr>
-                <th scope="col">#</th>
+                <th scope="col">Order ID</th>
                 <th scope="col">Gallons Requested</th>
                 <th scope="col">Delivery Address</th>
                 <th scope="col">Delivery Date</th>
@@ -16,23 +15,23 @@
             </tr>
             </thead>
             <tbody>
-            <tr>
-                <th scope="row">1</th>
-                <td>400</td>
-                <td>UH Clahoun Rd,Houston, TX</td>
-                <td>2/3/2019</td>
-                <td>$100</td>
-                <td>$40000</td>
-            </tr>
-            <tr>
-                <th scope="row">2</th>
-                <td>250</td>
-                <td>UH Clahoun Rd,Houston, TX</td>
-                <td>2/3/2019</td>
-                <td>$90</td>
-                <td>$22500</td>
-            </tr>
+                {% for x in quote_list%}
 
+                <tr>
+                    <th>{{x.order_id}}</th>
+                    <th>{{x.reqGallons}}</th>
+                    <th>{{x.delivery_address}}</th>
+                    <th>{{x.reqDelDate}}</th>
+                </tr>
+          
+              {% endfor %}  
             </tbody>
+
     </table>
+
+  
 {% endblock %}
+<!--    order_id = models.AutoField(primary_key=True)
+    reqGallons = models.CharField(max_length=10,verbose_name="Requested Gallons")
+    reqDelDate = models.DateField(blank=False,verbose_name="Delivery Date",default="YYYY-MM-DD")
+    delivery_address = models.CharField(max_length=300,verbose_name="Delivery Address")-->

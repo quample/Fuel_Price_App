@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'priceapp.apps.PriceappConfig',
     'accounts.apps.AccountsConfig',
     'widget_tweaks',
+    'django_ajax',
 ]
 
 MIDDLEWARE = [
