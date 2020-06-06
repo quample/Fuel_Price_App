@@ -1,5 +1,5 @@
 coverage==4.5.3
-Django==2.1.7
+Django==2.2.13
 django-ajax==0.3.0
 django-nose==1.4.6
 django-widget-tweaks==1.4.3
